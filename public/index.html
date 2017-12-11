@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>hft-vl-11-example-2</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js" integrity="sha256-WPeFPWD3PZQUDrpFnDM1N2KadNVwCfNS4cCZ78b76T8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <script>
+      $(document).ready(() => {
+        const socket = io();
+        $('#messageForm').submit((event) => {
+          event.preventDefault();
+
+          socket.emit('message', $('#m').val());
+          $('#m').val('');
+        });
+
+        $('#roomForm').submit((event) => {
+          event.preventDefault();
+
+          socket.emit('room', $('#r').val());
+          $('#room').html($('<h3>').text(`Room: ${$('#r').val()}`));
+          $('#r').val('');
+        });
+
+        socket.on('message', function(msg){
+          $('#messages').append($('<li>').text(msg));
+        });
+
+        socket.on('room', function(msg){
+          $('#room').html($('<h3>').text(`Room: ${msg}`));
+          $('#messages').empty();
+        });
+      });
+    </script>
+  </head>
+  <body class="container">
+    <div>
+      <ul id="messages"></ul>
+      <form action="" id="messageForm">
+        <h2>Messages</h2>
+        <div id="room"></div>
+        <input id="m" autocomplete="off" /><button>Send</button>
+      </form>
+      <form action="" id="roomForm">
+        <h2>Join another room: </h2>
+        <input id="r" autocomplete="off" /><button>Join Room</button>
+      </form>
+    </div>
+  </body>
+</html>
