@@ -1,6 +1,6 @@
-#Websocket Rooms Example
+# Websocket Rooms Example
 
-##Dependecies
+## Dependecies
 * `nodemon` needs to be installed globally
 
 ## Scripts
